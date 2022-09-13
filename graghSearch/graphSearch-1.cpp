@@ -6,9 +6,6 @@ using namespace std;
 #define MAX_VTXS 256
 
 
-
-
-
 class AdjMatGraph
 {
 protected:
@@ -53,7 +50,7 @@ public:
 
 class SearchGraph : public AdjMatGraph
 {
-    bool visited[MAX_VTXS];
+public :int visited[MAX_VTXS];
 public:
     void resetVisit()
     {
@@ -78,7 +75,8 @@ public:
 
     void BFS(int v)
     {
-        visited[v] = true;
+        fill_n(visited, MAX_VTXS, -1);
+        visited[v] = 0;
         queue<char> q;
         q.push(v);
         while (!q.empty())
@@ -86,18 +84,17 @@ public:
             int i = q.front();
             cout << getVertex(i) << " ";
             q.pop();
-            for (int i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
             {
-                if (isLinked(v, i) && visited[i] == false)
+                if (isLinked(i, j) && visited[j] < 0)
                 {
-                    visited[i] = true;
-                    q.push(i);
+                    visited[j] = i+1;
+                    q.push(j);
                 }
             }
         }
     }
 };
-
 
 int main()
 {
@@ -122,4 +119,11 @@ int main()
     g.resetVisit();
     cout << "BFS" << endl;
     g.BFS(0);
+    cout << endl;
+    cout << "최단 거리 :" << endl;
+
+    for (int i = 0; i < 4; i++)
+    {
+        cout<<g.visited[i] << " ";
+    }
 }
